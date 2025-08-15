@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creando Patinadores MX</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Suprimir advertencia de Tailwind CDN en producción
+        if (typeof console !== 'undefined') {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                if (args[0] && args[0].includes && args[0].includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, args);
+            };
+        }
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
@@ -18,6 +30,40 @@
             background-attachment: fixed;
             overflow-x: hidden;
             min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
+        }
+        
+        /* Hero optimization for better space usage */
+        .hero-container {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        /* Logo enhanced prominence */
+        .logo-enhanced {
+            filter: drop-shadow(0 0 30px rgba(220, 38, 38, 0.3));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        
+        .logo-enhanced:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 40px rgba(220, 38, 38, 0.5));
+        }
+        
+        /* Optimized spacing for different screen sizes */
+        @media (max-height: 600px) {
+            .hero-compact .mb-8 { margin-bottom: 1rem; }
+            .hero-compact .mb-10 { margin-bottom: 1.5rem; }
+            .hero-compact .mb-12 { margin-bottom: 2rem; }
+        }
+        
+        @media (min-height: 800px) {
+            .hero-spacious .mb-8 { margin-bottom: 2.5rem; }
+            .hero-spacious .mb-10 { margin-bottom: 3rem; }
+            .hero-spacious .mb-12 { margin-bottom: 3.5rem; }
         }
         
         .elite-font {
@@ -136,356 +182,325 @@
     </div>
     
     <!-- Header/Hero Section -->
-    <header class="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20 pb-12">
+    <header class="relative hero-container text-center px-4 py-8 hero-compact hero-spacious">
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80"></div>
         
-        <div class="relative z-10 max-w-4xl mx-auto">
+        <!-- Top spacer for better distribution -->
+        <div class="flex-1 min-h-0"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto flex-1 flex flex-col justify-center items-center">
             <!-- Logo -->
-            <div class="mb-12">
-                <div class="w-40 h-40 mx-auto mb-8 floating-elegant red-glow shadow-2xl">
+            <div class="mb-8 sm:mb-10 md:mb-12">
+                <div class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 mx-auto mb-6 sm:mb-8 floating-elegant logo-enhanced">
                     <img src="./MX.avif" 
                          alt="Creando Patinadores MX Logo" 
                          class="w-full h-full object-contain rounded-3xl bg-transparent"
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <!-- Fallback icon if image fails to load -->
                     <div class="w-full h-full bg-gradient-to-br from-red-600 via-red-500 to-red-700 rounded-full flex items-center justify-center border border-red-500/30" style="display: none;">
-                        <i class="fas fa-skating text-5xl text-white"></i>
+                        <i class="fas fa-skating text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white"></i>
                     </div>
                 </div>
             </div>
             
             <!-- Main Title -->
-            <div class="mb-12">
-                <h1 class="elite-font text-7xl md:text-9xl lg:text-[10rem] text-white mb-4 tracking-wider text-shadow-red leading-tight">
+            <div class="mb-6 sm:mb-8 md:mb-10">
+                <h1 class="elite-font text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white mb-3 sm:mb-4 tracking-wider text-shadow-red leading-tight">
                     CREANDO
                 </h1>
-                <h1 class="elite-font text-7xl md:text-9xl lg:text-[10rem] gradient-text mb-6 tracking-wider leading-tight">
+                <h1 class="elite-font text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl gradient-text mb-4 sm:mb-6 tracking-wider leading-tight">
                     PATINADORES MX
                 </h1>
             </div>
             
             <!-- Subtitle -->
-            <div class="mb-12">
-                <div class="inline-flex items-center px-8 py-4 glass-effect rounded-2xl">
-                    <i class="fas fa-skateboard text-red-400 text-2xl mr-4"></i>
-                    <span class="premium-font text-xl text-gray-200">SKATE SCHOOL • PACHUCA, HIDALGO</span>
-                    <i class="fas fa-skateboard text-red-400 text-2xl ml-4"></i>
-                </div>
-            </div>
-            
-            <!-- Social Icons -->
-            <div class="flex justify-center space-x-6 mb-16">
-                <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center hover-lift cursor-pointer red-glow">
-                    <i class="fab fa-instagram text-white text-2xl"></i>
-                </div>
-                <div class="w-16 h-16 bg-gradient-to-br from-gray-900 to-black rounded-2xl flex items-center justify-center hover-lift cursor-pointer red-glow border border-white/10">
-                    <i class="fab fa-tiktok text-white text-2xl"></i>
-                </div>
-                <div class="w-16 h-16 bg-gradient-to-br from-red-600 to-red-800 rounded-2xl flex items-center justify-center hover-lift cursor-pointer red-glow">
-                    <i class="fab fa-youtube text-white text-2xl"></i>
+            <div class="mb-6 sm:mb-8">
+                <div class="inline-flex items-center px-4 sm:px-6 md:px-8 py-3 sm:py-4 glass-effect rounded-2xl">
+                    <i class="fas fa-skateboard text-red-400 text-lg sm:text-xl md:text-2xl mr-2 sm:mr-3 md:mr-4"></i>
+                    <span class="premium-font text-sm sm:text-base md:text-lg lg:text-xl text-gray-200">SKATE SCHOOL • PACHUCA, HIDALGO</span>
+                    <i class="fas fa-skateboard text-red-400 text-lg sm:text-xl md:text-2xl ml-2 sm:ml-3 md:ml-4"></i>
                 </div>
             </div>
             
             <!-- CTA Button -->
-            <div class="mb-8">
-                <a href="https://wa.me/527711234567?text=¡Hola!%20Quiero%20agendar%20mi%20clase%20de%20skate" 
-                   class="premium-btn inline-flex items-center px-12 py-6 rounded-2xl text-white premium-font text-xl font-semibold">
-                    <i class="fab fa-whatsapp text-3xl mr-4"></i>
-                    <span>AGENDA TU CLASE AHORA</span>
-                    <i class="fas fa-arrow-right text-xl ml-4"></i>
+            <div class="mb-6 sm:mb-8 px-4 sm:px-0">
+                <a href="https://wa.me/5581277215?text=¡Hola!%20Quiero%20agendar%20mi%20clase%20de%20skate" 
+                   class="premium-btn inline-flex items-center px-6 sm:px-8 md:px-12 py-4 sm:py-5 md:py-6 rounded-2xl text-white premium-font text-lg sm:text-xl font-semibold w-full sm:w-auto justify-center">
+                    <i class="fab fa-whatsapp text-2xl sm:text-2xl md:text-3xl mr-3 sm:mr-3 md:mr-4"></i>
+                    <span class="text-center">AGENDA TU CLASE AHORA</span>
+                    <i class="fas fa-arrow-right text-lg sm:text-lg md:text-xl ml-3 sm:ml-3 md:ml-4"></i>
                 </a>
             </div>
-            
-            <!-- Scroll Indicator -->
-            <div class="flex flex-col items-center mt-16">
-                <div class="elegant-divider h-px w-24 mb-4"></div>
-                <div class="text-gray-400 premium-font text-sm uppercase tracking-wide">Desliza para más</div>
-                <i class="fas fa-chevron-down text-red-400 text-xl mt-2 animate-bounce"></i>
-            </div>
+        </div>
+        
+        <!-- Bottom Section - Scroll Indicator -->
+        <div class="relative z-10 flex flex-col items-center pb-4 sm:pb-6">
+            <div class="elegant-divider h-px w-16 sm:w-24 mb-3 sm:mb-4"></div>
+            <div class="text-gray-400 premium-font text-xs sm:text-sm uppercase tracking-wide mb-2">Desliza para más</div>
+            <i class="fas fa-chevron-down text-red-400 text-lg sm:text-xl animate-bounce"></i>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="relative z-10">
-        <div class="max-w-2xl mx-auto px-6 pb-20 space-y-12">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16 md:pb-20 space-y-8 sm:space-y-10 md:space-y-12">
             
             <!-- Instructor Section -->
-            <section class="elegant-card rounded-3xl p-8 hover-lift">
-                <div class="flex items-start space-x-6 mb-8">
+            <section class="elegant-card rounded-3xl p-6 sm:p-8 hover-lift">
+                <div class="flex items-start space-x-4 sm:space-x-6 mb-6 sm:mb-8">
                     <div class="relative flex-shrink-0">
-                        <div class="w-24 h-24 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center red-glow">
-                            <i class="fas fa-user-graduate text-white text-3xl"></i>
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center red-glow overflow-hidden">
+                            <img src="./lolo.avif" 
+                                 alt="Eduardo - Instructor" 
+                                 class="w-full h-full object-cover rounded-2xl"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <i class="fas fa-user-graduate text-white text-2xl sm:text-3xl" style="display: none;"></i>
                         </div>
-                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center border-2 border-black">
+                        <div class="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 bg-red-500 rounded-full flex items-center justify-center border-2 border-black">
                             <span class="text-white text-xs font-bold">PRO</span>
                         </div>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <h3 class="elite-font text-3xl gradient-text mb-2 tracking-wide">Eduardo</h3>
-                        <p class="text-red-400 premium-font font-semibold mb-3">🏆 10+ años de experiencia</p>
+                        <h3 class="elite-font text-2xl sm:text-3xl gradient-text mb-2 tracking-wide">Eduardo</h3>
+                        <p class="text-red-400 premium-font font-semibold mb-3 text-sm sm:text-base">🏆 10+ años de experiencia</p>
                         <div class="flex space-x-1">
-                            <i class="fas fa-star text-yellow-400 text-lg"></i>
-                            <i class="fas fa-star text-yellow-400 text-lg"></i>
-                            <i class="fas fa-star text-yellow-400 text-lg"></i>
-                            <i class="fas fa-star text-yellow-400 text-lg"></i>
-                            <i class="fas fa-star text-yellow-400 text-lg"></i>
+                            <i class="fas fa-star text-yellow-400 text-base sm:text-lg"></i>
+                            <i class="fas fa-star text-yellow-400 text-base sm:text-lg"></i>
+                            <i class="fas fa-star text-yellow-400 text-base sm:text-lg"></i>
+                            <i class="fas fa-star text-yellow-400 text-base sm:text-lg"></i>
+                            <i class="fas fa-star text-yellow-400 text-base sm:text-lg"></i>
                         </div>
                     </div>
                 </div>
-                <p class="text-gray-300 leading-relaxed mb-6 premium-font">
+                <p class="text-gray-300 leading-relaxed mb-6 premium-font text-sm sm:text-base">
                     Skater profesional con más de 10 años de experiencia en la escena. 
-                    Ha participado en competencias nacionales y ahora dedica su pasión a formar nuevos talentos en Pachuca.
+                    Instructor apasionado que dedica su tiempo, pasión y conocimiento a formar nuevos talentos en Pachuca.
                 </p>
-                <div class="flex flex-wrap gap-3">
-                    <span class="px-4 py-2 bg-red-500/20 text-red-300 rounded-full premium-font text-sm font-medium border border-red-500/30">STREET</span>
-                    <span class="px-4 py-2 bg-red-500/20 text-red-300 rounded-full premium-font text-sm font-medium border border-red-500/30">VERT</span>
-                    <span class="px-4 py-2 bg-red-500/20 text-red-300 rounded-full premium-font text-sm font-medium border border-red-500/30">FREESTYLE</span>
-                </div>
+                
             </section>
 
             <!-- Gallery Section -->
-            <section class="elegant-card rounded-3xl p-8 hover-lift">
-                <div class="flex items-center justify-between mb-8">
-                    <h3 class="elite-font text-3xl text-white tracking-wide">GALERÍA PREMIUM</h3>
-                    <i class="fas fa-camera text-red-400 text-2xl"></i>
+            <section class="elegant-card rounded-3xl p-6 sm:p-8 hover-lift">
+                <div class="flex items-center justify-between mb-6 sm:mb-8">
+                    <h3 class="elite-font text-2xl sm:text-3xl text-white tracking-wide">Nuestra comunidad</h3>
+                    <i class="fas fa-camera text-red-400 text-xl sm:text-2xl"></i>
                 </div>
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div class="aspect-square bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl flex items-center justify-center hover-lift border border-red-500/20 group cursor-pointer">
-                        <i class="fas fa-image text-red-400 text-4xl group-hover:text-red-300 transition-colors"></i>
+                <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div class="aspect-square bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl flex items-center justify-center hover-lift border border-red-500/20 group cursor-pointer overflow-hidden">
+                        <img src="./lolo1.avif" 
+                             alt="Galería Skate 1" 
+                             class="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i class="fas fa-image text-red-400 text-4xl group-hover:text-red-300 transition-colors" style="display: none;"></i>
                     </div>
-                    <div class="aspect-square bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl flex items-center justify-center hover-lift border border-red-500/20 group cursor-pointer">
-                        <i class="fas fa-video text-red-400 text-4xl group-hover:text-red-300 transition-colors"></i>
+                    <div class="aspect-square bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl flex items-center justify-center hover-lift border border-red-500/20 group cursor-pointer overflow-hidden">
+                        <img src="./lolo2.avif" 
+                             alt="Galería Skate 2" 
+                             class="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i class="fas fa-video text-red-400 text-4xl group-hover:text-red-300 transition-colors" style="display: none;"></i>
                     </div>
-                    <div class="aspect-square bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl flex items-center justify-center hover-lift border border-red-500/20 group cursor-pointer">
-                        <i class="fas fa-skateboard text-red-400 text-4xl group-hover:text-red-300 transition-colors"></i>
+                    <div class="aspect-square bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl flex items-center justify-center hover-lift border border-red-500/20 group cursor-pointer overflow-hidden">
+                        <img src="./lolo3.avif" 
+                             alt="Galería Skate 3" 
+                             class="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i class="fas fa-skateboard text-red-400 text-4xl group-hover:text-red-300 transition-colors" style="display: none;"></i>
                     </div>
-                    <div class="aspect-square bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl flex items-center justify-center hover-lift border border-red-500/20 group cursor-pointer">
-                        <i class="fas fa-trophy text-yellow-400 text-4xl group-hover:text-yellow-300 transition-colors"></i>
+                    <div class="aspect-square bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl flex items-center justify-center hover-lift border border-red-500/20 group cursor-pointer overflow-hidden">
+                        <img src="./lolo4.avif" 
+                             alt="Galería Skate 4" 
+                             class="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i class="fas fa-trophy text-yellow-400 text-4xl group-hover:text-yellow-300 transition-colors" style="display: none;"></i>
                     </div>
                 </div>
             </section>
 
             <!-- Locations Section -->
-            <section class="elegant-card rounded-3xl p-8 hover-lift">
-                <div class="flex items-center justify-between mb-8">
-                    <h3 class="elite-font text-3xl text-white tracking-wide">ZONAS DE CLASES</h3>
-                    <i class="fas fa-map-marker-alt text-red-400 text-2xl"></i>
+            <section class="elegant-card rounded-3xl p-6 sm:p-8 hover-lift">
+                <div class="flex items-center justify-between mb-6 sm:mb-8">
+                    <h3 class="elite-font text-2xl sm:text-3xl text-white tracking-wide">ZONAS DE CLASES</h3>
+                    <i class="fas fa-map-marker-alt text-red-400 text-xl sm:text-2xl"></i>
                 </div>
                 
                 <div class="space-y-4">
-                    <a href="#" class="glass-effect rounded-2xl p-6 block hover-lift group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center red-glow flex-shrink-0">
-                                <i class="fas fa-location-dot text-white text-xl"></i>
+                    <a href="https://maps.app.goo.gl/UeNAaRUW6AwMxn4RA" target="_blank" class="glass-effect rounded-2xl p-4 sm:p-6 block hover-lift group">
+                        <div class="flex items-center space-x-3 sm:space-x-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center red-glow flex-shrink-0">
+                                <i class="fas fa-location-dot text-white text-lg sm:text-xl"></i>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="text-white font-semibold premium-font text-lg mb-1">Centro de Pachuca</h4>
-                                <p class="text-gray-400 premium-font text-sm">🏙️ Skatepark Principal</p>
-                                <div class="flex items-center space-x-2 mt-2">
+                                <h4 class="text-white font-semibold premium-font text-base sm:text-lg mb-1">Zona Plateada - Parque Cultural Hidalguense</h4>
+                                <p class="text-gray-400 premium-font text-xs sm:text-sm">🏙️ Skatepark - David Ben Gurion</p>
+                                <div class="flex items-center space-x-2 mt-1 sm:mt-2">
                                     <div class="w-2 h-2 bg-green-400 rounded-full"></div>
                                     <span class="text-green-400 text-xs premium-font">Disponible</span>
                                 </div>
                             </div>
                             <div class="text-red-400 group-hover:text-red-300 transition-colors">
-                                <i class="fas fa-arrow-right text-xl"></i>
+                                <i class="fas fa-external-link-alt text-lg sm:text-xl"></i>
                             </div>
                         </div>
                     </a>
 
-                    <a href="#" class="glass-effect rounded-2xl p-6 block hover-lift group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center red-glow flex-shrink-0">
-                                <i class="fas fa-location-dot text-white text-xl"></i>
+                    <a href="https://maps.app.goo.gl/dBtwfTwR462EmV19A" target="_blank" class="glass-effect rounded-2xl p-4 sm:p-6 block hover-lift group">
+                        <div class="flex items-center space-x-3 sm:space-x-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center red-glow flex-shrink-0">
+                                <i class="fas fa-location-dot text-white text-lg sm:text-xl"></i>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="text-white font-semibold premium-font text-lg mb-1">Zona Boulevares</h4>
-                                <p class="text-gray-400 premium-font text-sm">🏢 Plaza Comercial</p>
-                                <div class="flex items-center space-x-2 mt-2">
-                                    <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                                    <span class="text-yellow-400 text-xs premium-font">Limitado</span>
-                                </div>
-                            </div>
-                            <div class="text-red-400 group-hover:text-red-300 transition-colors">
-                                <i class="fas fa-arrow-right text-xl"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="glass-effect rounded-2xl p-6 block hover-lift group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center red-glow flex-shrink-0">
-                                <i class="fas fa-location-dot text-white text-xl"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h4 class="text-white font-semibold premium-font text-lg mb-1">Mineral de la Reforma</h4>
-                                <p class="text-gray-400 premium-font text-sm">🌳 Parque Municipal</p>
-                                <div class="flex items-center space-x-2 mt-2">
+                                <h4 class="text-white font-semibold premium-font text-base sm:text-lg mb-1">Piracantos</h4>
+                                <p class="text-gray-400 premium-font text-xs sm:text-sm">🏢 Skatepark - Bajo del puente</p>
+                                <div class="flex items-center space-x-2 mt-1 sm:mt-2">
                                     <div class="w-2 h-2 bg-green-400 rounded-full"></div>
                                     <span class="text-green-400 text-xs premium-font">Disponible</span>
                                 </div>
                             </div>
                             <div class="text-red-400 group-hover:text-red-300 transition-colors">
-                                <i class="fas fa-arrow-right text-xl"></i>
+                                <i class="fas fa-external-link-alt text-lg sm:text-xl"></i>
                             </div>
                         </div>
                     </a>
+
+                    <!-- Horarios Section -->
+                    <div class="glass-effect rounded-2xl p-4 sm:p-6 hover-lift">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 sm:space-x-4">
+                                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-clock text-white text-lg sm:text-xl"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-white font-semibold premium-font text-base sm:text-lg mb-1">Horarios de Clases</h4>
+                                    <p class="text-gray-400 premium-font text-xs sm:text-sm">📅 Agenda tu clase con tiempo</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <h4 class="text-white font-semibold premium-font text-base sm:text-lg mb-1">Lunes - Sabado</h4>
+                                <p class="text-blue-400 premium-font text-sm sm:text-base font-medium">09:00 AM - 01:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <!-- Shop Section -->
-            <section class="elegant-card rounded-3xl p-8 hover-lift">
-                <div class="text-center mb-8">
-                    <h3 class="elite-font text-3xl gradient-text mb-4 tracking-wide">TIENDA PREMIUM</h3>
-                    <p class="text-gray-300 premium-font">¿Necesitas equipo? Tenemos lo mejor</p>
+            <section class="elegant-card rounded-3xl p-6 sm:p-8 hover-lift">
+                <div class="text-center mb-6 sm:mb-8">
+                    <h3 class="elite-font text-2xl sm:text-3xl gradient-text mb-3 sm:mb-4 tracking-wide">TIENDA PREMIUM</h3>
+                    <p class="text-gray-300 premium-font text-sm sm:text-base">¿Necesitas equipo? Tenemos lo mejor</p>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-4 mb-8">
-                    <button onclick="redirectToShop('tablas')" class="glass-effect rounded-2xl p-6 hover-lift group transition-all duration-300">
-                        <div class="text-red-400 text-4xl mb-3 group-hover:text-red-300">🛹</div>
-                        <div class="text-white premium-font font-semibold">TABLAS</div>
+                <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                    <button onclick="redirectToShop('tablas')" class="glass-effect rounded-2xl p-4 sm:p-6 hover-lift group transition-all duration-300">
+                        <div class="text-red-400 text-3xl sm:text-4xl mb-2 sm:mb-3 group-hover:text-red-300">🛹</div>
+                        <div class="text-white premium-font font-semibold text-sm sm:text-base">TABLAS</div>
                     </button>
-                    <button onclick="redirectToShop('baleros')" class="glass-effect rounded-2xl p-6 hover-lift group transition-all duration-300">
-                        <div class="text-red-400 text-4xl mb-3 group-hover:text-red-300">⚙️</div>
-                        <div class="text-white premium-font font-semibold">BALEROS</div>
+                    <button onclick="redirectToShop('baleros')" class="glass-effect rounded-2xl p-4 sm:p-6 hover-lift group transition-all duration-300">
+                        <div class="text-red-400 text-3xl sm:text-4xl mb-2 sm:mb-3 group-hover:text-red-300">⚙️</div>
+                        <div class="text-white premium-font font-semibold text-sm sm:text-base">BALEROS</div>
                     </button>
-                    <button onclick="redirectToShop('llantas')" class="glass-effect rounded-2xl p-6 hover-lift group transition-all duration-300">
-                        <div class="text-red-400 text-4xl mb-3 group-hover:text-red-300">🎯</div>
-                        <div class="text-white premium-font font-semibold">LLANTAS</div>
+                    <button onclick="redirectToShop('llantas')" class="glass-effect rounded-2xl p-4 sm:p-6 hover-lift group transition-all duration-300">
+                        <div class="text-red-400 text-3xl sm:text-4xl mb-2 sm:mb-3 group-hover:text-red-300">🎯</div>
+                        <div class="text-white premium-font font-semibold text-sm sm:text-base">LLANTAS</div>
                     </button>
-                    <button onclick="redirectToShop('ropa')" class="glass-effect rounded-2xl p-6 hover-lift group transition-all duration-300">
-                        <div class="text-red-400 text-4xl mb-3 group-hover:text-red-300">👕</div>
-                        <div class="text-white premium-font font-semibold">ROPA</div>
+                    <button onclick="redirectToShop('ropa')" class="glass-effect rounded-2xl p-4 sm:p-6 hover-lift group transition-all duration-300">
+                        <div class="text-red-400 text-3xl sm:text-4xl mb-2 sm:mb-3 group-hover:text-red-300">👕</div>
+                        <div class="text-white premium-font font-semibold text-sm sm:text-base">ROPA</div>
                     </button>
                 </div>
                 
-                <button onclick="redirectToShop('todo')" class="premium-btn w-full py-4 px-8 rounded-2xl text-white premium-font font-semibold text-lg">
-                    <span class="flex items-center justify-center space-x-3">
-                        <i class="fas fa-store text-xl"></i>
-                        <span>VER TODA LA TIENDA</span>
+                <button onclick="redirectToShop('todo')" class="premium-btn w-full py-3 sm:py-4 px-6 sm:px-8 rounded-2xl text-white premium-font font-semibold text-base sm:text-lg">
+                    <span class="flex items-center justify-center space-x-2 sm:space-x-3">
+                        <i class="fab fa-instagram text-lg sm:text-xl"></i>
+                        <span>VER TIENDA EN INSTAGRAM</span>
                         <i class="fas fa-external-link-alt text-sm"></i>
                     </span>
                 </button>
             </section>
 
             <!-- Social Media Section -->
-            <section class="elegant-card rounded-3xl p-8 hover-lift">
-                <div class="text-center mb-8">
-                    <h3 class="elite-font text-3xl text-white tracking-wide mb-2">SÍGUENOS</h3>
-                    <p class="text-gray-400 premium-font">Únete a nuestra comunidad</p>
+            <section class="elegant-card rounded-3xl p-6 sm:p-8 hover-lift">
+                <div class="text-center mb-6 sm:mb-8">
+                    <h3 class="elite-font text-2xl sm:text-3xl text-white tracking-wide mb-2">SÍGUENOS</h3>
+                    <p class="text-gray-400 premium-font text-sm sm:text-base">Únete a nuestra comunidad</p>
                 </div>
                 
                 <div class="space-y-4">
-                    <a href="#" class="glass-effect rounded-2xl p-6 block hover-lift group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                <i class="fab fa-instagram text-white text-2xl"></i>
+                    <a href="https://www.instagram.com/creandopatinadores?igsh=cmd5bmV1MWJteWlk" target="_blank" class="glass-effect rounded-2xl p-4 sm:p-6 block hover-lift group">
+                        <div class="flex items-center space-x-3 sm:space-x-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fab fa-instagram text-white text-xl sm:text-2xl"></i>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="text-white font-semibold premium-font text-lg mb-1">@creandopatinadoresmx</h4>
-                                <p class="text-gray-400 premium-font text-sm">📸 Fotos y stories diarios</p>
+                                <h4 class="text-white font-semibold premium-font text-base sm:text-lg mb-1">@creandopatinadores</h4>
+                                <p class="text-gray-400 premium-font text-xs sm:text-sm">📸 Fotos, videos y contenido exclusivo</p>
                             </div>
                             <div class="text-purple-400 group-hover:text-purple-300 transition-colors">
-                                <i class="fas fa-external-link-alt text-lg"></i>
+                                <i class="fas fa-external-link-alt text-base sm:text-lg"></i>
                             </div>
                         </div>
                     </a>
-
-                    <a href="#" class="glass-effect rounded-2xl p-6 block hover-lift group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-gray-900 to-black rounded-xl flex items-center justify-center border border-white/20 flex-shrink-0">
-                                <i class="fab fa-tiktok text-white text-2xl"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h4 class="text-white font-semibold premium-font text-lg mb-1">@creandopatinadoresmx</h4>
-                                <p class="text-gray-400 premium-font text-sm">🎥 Videos de tricks y tips</p>
-                            </div>
-                            <div class="text-white group-hover:text-gray-300 transition-colors">
-                                <i class="fas fa-external-link-alt text-lg"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="glass-effect rounded-2xl p-6 block hover-lift group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-red-600 to-red-800 rounded-xl flex items-center justify-center red-glow flex-shrink-0">
-                                <i class="fab fa-youtube text-white text-2xl"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h4 class="text-white font-semibold premium-font text-lg mb-1">Creando Patinadores MX</h4>
-                                <p class="text-gray-400 premium-font text-sm">📺 Tutoriales completos</p>
-                            </div>
-                            <div class="text-red-400 group-hover:text-red-300 transition-colors">
-                                <i class="fas fa-external-link-alt text-lg"></i>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section class="elegant-card rounded-3xl p-8 hover-lift">
-                <div class="flex items-center justify-between mb-8">
-                    <h3 class="elite-font text-3xl text-white tracking-wide">CONTACTO</h3>
-                    <i class="fas fa-address-book text-red-400 text-2xl"></i>
-                </div>
-                
-                <div class="space-y-6">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center flex-shrink-0">
-                            <i class="fab fa-whatsapp text-white text-2xl"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-white font-semibold premium-font text-lg mb-1">55-8127-7215</h4>
-                            <p class="text-gray-400 premium-font text-sm">📱 WhatsApp disponible 24/7</p>
-                        </div>
-                    </div>
                     
-                    <div class="flex items-center space-x-4">
-                        <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center red-glow flex-shrink-0">
-                            <i class="fas fa-clock text-white text-xl"></i>
+                    <a href="https://wa.me/5581277215?text=¡Hola!%20Quiero%20agendar%20mi%20clase%20de%20skate" target="_blank" class="glass-effect rounded-2xl p-4 sm:p-6 block hover-lift group">
+                        <div class="flex items-center space-x-3 sm:space-x-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fab fa-whatsapp text-white text-xl sm:text-2xl"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="text-white font-semibold premium-font text-base sm:text-lg mb-1">55-8127-7215</h4>
+                                <p class="text-gray-400 premium-font text-xs sm:text-sm">� WhatsApp disponible 24/7</p>
+                            </div>
+                            <div class="text-green-400 group-hover:text-green-300 transition-colors">
+                                <i class="fas fa-external-link-alt text-base sm:text-lg"></i>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-white font-semibold premium-font text-lg mb-1">Lun - Dom: 8:00 AM - 12:00 PM</h4>
-                            <p class="text-gray-400 premium-font text-sm">🕒 Horarios de clases flexibles</p>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </section>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 mt-20 pb-12">
-        <div class="max-w-2xl mx-auto px-6 text-center">
+    <footer class="relative z-10 mt-12 sm:mt-16 md:mt-20 pb-8 sm:pb-12">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
             <!-- Divider -->
-            <div class="elegant-divider h-px w-32 mx-auto mb-8"></div>
+            <div class="elegant-divider h-px w-24 sm:w-32 mx-auto mb-6 sm:mb-8"></div>
             
             <!-- Footer Content -->
-            <div class="mb-8">
-                <p class="text-gray-400 premium-font mb-4">
+            <div class="mb-6 sm:mb-8">
+                <p class="text-gray-400 premium-font mb-3 sm:mb-4 text-sm sm:text-base">
                     Creado con 🛹 y ❤️ en Pachuca, Hidalgo
                 </p>
-                <p class="elite-font text-2xl gradient-text tracking-wide">
+                <p class="elite-font text-xl sm:text-2xl gradient-text tracking-wide">
                     SKATE OR DIE!
                 </p>
             </div>
             
             <!-- Badge -->
-            <div class="inline-flex items-center space-x-4">
-                <div class="px-4 py-2 glass-effect rounded-full">
-                    <span class="text-red-400 premium-font text-sm font-medium">EST. 2024</span>
+            <div class="inline-flex items-center space-x-2 sm:space-x-4 flex-wrap justify-center gap-2 sm:gap-0">
+                <div class="px-3 sm:px-4 py-2 glass-effect rounded-full">
+                    <span class="text-red-400 premium-font text-xs sm:text-sm font-medium">EST. 2024</span>
                 </div>
-                <div class="px-4 py-2 bg-red-500/20 rounded-full border border-red-500/30">
-                    <span class="text-red-300 premium-font text-sm font-medium">100% MEXICANO</span>
+                <div class="px-3 sm:px-4 py-2 bg-red-500/20 rounded-full border border-red-500/30">
+                    <span class="text-red-300 premium-font text-xs sm:text-sm font-medium">100% MEXICANO</span>
                 </div>
             </div>
             
             <!-- Copyright -->
-            <div class="mt-8 pt-6 border-t border-gray-800">
-                <p class="text-gray-500 premium-font text-sm">
+            <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-800">
+                <p class="text-gray-500 premium-font text-xs sm:text-sm mb-3">
                     © 2024 Creando Patinadores MX. Todos los derechos reservados.
                 </p>
+                <!-- Developer Credits -->
+                <div class="flex items-center justify-center space-x-2 text-xs text-gray-600">
+                    <span class="premium-font">Diseñado y desarrollado por</span>
+                    <a href="https://www.theneven.tech" target="_blank" class="inline-flex items-center space-x-1 text-red-400 hover:text-red-300 transition-colors premium-font font-semibold">
+                        <span>NEVEN</span>
+                        <i class="fas fa-external-link-alt text-xs"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>
@@ -493,13 +508,11 @@
     <script>
         // Shop redirect function
         function redirectToShop(category) {
-            // En una implementación real, redirigirías a diferentes páginas o secciones
-            const shopUrl = `https://shop.creandopatinadoresmx.com/${category}`;
+            // Redirigir al Instagram de segunda mano skate
+            const instagramUrl = 'https://www.instagram.com/segunda_mano_skate_?igsh=bjA4NzB2Y2thOGgy';
             
-            // Mostrar mensaje de ejemplo
-            alert(`Redirigiendo a la tienda: ${category.toUpperCase()}\n\nEn una implementación real, esto abriría:\n${shopUrl}`);
-            
-            // window.open(shopUrl, '_blank');
+            // Abrir en nueva ventana
+            window.open(instagramUrl, '_blank');
         }
 
         // Smooth scrolling for internal links
